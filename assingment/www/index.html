@@ -18,9 +18,9 @@
     under the License.
 -->
 <html>
-    <head>
-        <meta charset="utf-8">
-        <!--
+  <head>
+    <meta charset="utf-8" />
+    <!--
         Customize this policy to fit your own app's needs. For more guidance, please refer to the docs:
             https://cordova.apache.org/docs/en/latest/
         Some notes:
@@ -28,23 +28,74 @@
             * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
                 * Enable inline JS: add 'unsafe-inline' to default-src
         -->
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
-        <meta name="format-detection" content="telephone=no">
-        <meta name="msapplication-tap-highlight" content="no">
-        <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
-        <meta name="color-scheme" content="light dark">
-        <link rel="stylesheet" href="css/index.css">
-        <title>Hello World</title>
-    </head>
-    <body>
-        <div class="app">
-            <h1>Apache Cordova</h1>
-            <div id="deviceready" class="blink">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
-            </div>
-        </div>
-        <script src="cordova.js"></script>
-        <script src="js/index.js"></script>
-    </body>
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self' data: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;"
+    />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta
+      name="viewport"
+      content="initial-scale=1, width=device-width, viewport-fit=cover"
+    />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="stylesheet" href="css/index.css" />
+    <title>Hello World</title>
+  </head>
+  <body>
+
+    <div id="posts"></div>
+
+    <div class="link">
+        <h1>WordPress Posts</h1>
+        <a
+      style="background: blue; padding: 20px; border-radius: 10px; color: white;"
+      href="https://pandatechz.lovestoblog.com/elementor-1848/"
+      >visit website</a
+    >
+    </div>
+    
+    <script src="cordova.js"></script>
+    <script src="js/index.js">
+
+        document.addEventListener("deviceready", onDeviceReady, false);
+
+        function onDeviceReady(){
+
+            function fetchWordPressPosts() {
+                fetch('https://pandatechz.lovestoblog.com/elementor-1848/wp-json/wp/v2/posts')
+                  .then(response => {
+                    if (!response) {
+                      throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                  })
+                  .then(data => {
+                    const postsDiv = document.getElementById('posts')
+                    postsDiv.innerHTML = ''; // Clear previous content
+              
+                    data.forEach(post => {
+                      const postElement = document.createElement('div');
+                      postElement.innerHTML = `
+                        <h2>${post.title.rendered}</h2>
+                        <p>${post.content.rendered}</p>
+                        <hr>
+                      `;
+                      postsDiv.appendChild(postElement);
+                    });
+                  })
+                  .catch(error => {
+                    console.error('Error fetching WordPress posts:', error);
+                  });
+              }
+              
+              // Call the function to fetch WordPress posts when the page loads
+              //document.addEventListener('DOMContentLoaded', fetchWordPressPosts);
+              
+            }
+            
+            setTimeout(onDeviceReady,0)
+
+    </script>
+  </body>
 </html>
