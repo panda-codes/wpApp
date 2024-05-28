@@ -1,101 +1,270 @@
 <!DOCTYPE html>
-<!--
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display and Input Posts</title>
+    <style>
+      
+      *{
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+      }
 
-    http://www.apache.org/licenses/LICENSE-2.0
+/*styling for post container*/
+        #posts-container {
+            margin-top:30px;
+            margin-bottom:20px;
+            display: flex;
+            gap: 10px;
+            flex-direction: column;
+            align-items: center;
+            line-height: 1.1;
+        }
 
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <!--
-        Customize this policy to fit your own app's needs. For more guidance, please refer to the docs:
-            https://cordova.apache.org/docs/en/latest/
-        Some notes:
-            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
-            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
-                * Enable inline JS: add 'unsafe-inline' to default-src
-        -->
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src 'self' data: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;"
-    />
-    <meta name="format-detection" content="telephone=no" />
-    <meta name="msapplication-tap-highlight" content="no" />
-    <meta
-      name="viewport"
-      content="initial-scale=1, width=device-width, viewport-fit=cover"
-    />
-    <meta name="color-scheme" content="light dark" />
-    <link rel="stylesheet" href="css/index.css" />
-    <title>Hello World</title>
-  </head>
-  <body>
+        /*styling for each post*/
+        .post {
+            width: 70%;
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            margin-bottom: 10px;
+            box-shadow:0px 4px 10px rgba(0, 0, 0, 0.3);
+        }
 
-    <div id="posts"></div>
+        /*styling for post heading*/
+        .post-h{
+          background-color: rgb(40, 91, 247);
+          padding: 10px;
+          display: flex;
+          text-align: center;
+          justify-content: center;
+          align-items: center;
+          height: 70px;
+          width: 100%;
+          border-top-left-radius: 20px;
+          border-top-right-radius: 20px;
+          margin-bottom: 5px;
+        }
 
-    <div class="link">
-        <h1>WordPress Posts</h1>
-        <a
-      style="background: blue; padding: 20px; border-radius: 10px; color: white;"
-      href="https://pandatechz.lovestoblog.com/elementor-1848/"
-      >visit website</a
-    >
-    </div>
-    
-    <script src="cordova.js"></script>
-    <script src="js/index.js">
+        /*styling for bottom half of post*/
+        .post-bottom{
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: space-between;
+          gap: 8px;
+        }
 
-        document.addEventListener("deviceready", onDeviceReady, false);
+        /*styling for post header*/
+        .post h2 {
+            margin-top: 0;
+            font-size: 20px;
+            color: white;
+        }
 
-        function onDeviceReady(){
+        /*styling for post paragraph*/
+        .post p {
+          margin-left: 20px;
+          margin-right: 20px;
+            margin-bottom: 0;
+        }
 
-            function fetchWordPressPosts() {
-                fetch('https://pandatechz.lovestoblog.com/elementor-1848/wp-json/wp/v2/posts')
-                  .then(response => {
-                    if (!response) {
-                      throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                  })
-                  .then(data => {
-                    const postsDiv = document.getElementById('posts')
-                    postsDiv.innerHTML = ''; // Clear previous content
-              
-                    data.forEach(post => {
-                      const postElement = document.createElement('div');
-                      postElement.innerHTML = `
-                        <h2>${post.title.rendered}</h2>
-                        <p>${post.content.rendered}</p>
-                        <hr>
-                      `;
-                      postsDiv.appendChild(postElement);
+        /*styling for button*/
+        button{
+          padding: 10px 50px;
+          border-radius: 5px;
+          background-color: rgb(40, 91, 247);
+          color: white;
+          border: none;
+          font-weight: 700;
+        }
+
+        button:hover{
+          transform: scale(1.1);
+          background-color: rgb(12, 55, 186);
+          transition: 0.2s;
+          cursor: pointer;
+        }
+
+        form{
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+
+        /*media query*/
+        @media (max-width:768px) {
+
+          .post-h{
+            background-color: rgb(40, 91, 247);
+            padding: 10px;
+            display: flex;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            height: 50px;
+            width: 100%;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            margin-bottom: 5px;
+          }
+          
+          .post {
+            width: 80%;
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            margin-bottom: 10px;
+            box-shadow:0px 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .post p {
+          margin-left: 10px;
+          margin-right: 10px;
+            margin-bottom: 0;
+        }
+
+        .post-bottom{
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: space-around;
+        }
+
+        button{
+          padding: 8px 25px;
+          border-radius: 5px;
+          background-color: rgb(40, 91, 247);
+          color: white;
+          border: none;
+          font-weight: 700;
+        }
+
+        
+
+        }
+    </style>
+</head>
+<body>
+    <div id="posts-container"></div>
+
+    <form id="post-form">
+      <label for="title">Title:</label><br>
+      <input type="text" id="title" name="title" required><br>
+      <label for="content">Content:</label><br>
+      <textarea id="content" name="content" required></textarea><br><br>
+      <button type="submit">Add Post</button>
+  </form>
+
+    <script>
+        const postsContainer = document.getElementById('posts-container');
+        const apiUrl = 'https://api.jsonbin.io/v3/b/665476aae41b4d34e4fa29bb';
+        const apiKey = '$2a$10$V.Wm/W0aH9IsZPz9L6qPwOmUY8PH35ZnAgliTfKSEgcoEUX0DqWZu'; // Replace with your actual API key
+
+        function fetchAndDisplayPosts() {
+            fetch(`${apiUrl}/latest`, {
+                headers: {
+                    'X-Master-Key': apiKey
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Fetched data:', data); // Add logging to debug
+                postsContainer.innerHTML = ''; // Clear previous posts
+                
+                // Check if the nested record field exists
+                if (data.record && data.record.record && Array.isArray(data.record.record.posts)) {
+                    data.record.record.posts.forEach(post => {
+                        displayPost(post);
                     });
-                  })
-                  .catch(error => {
-                    console.error('Error fetching WordPress posts:', error);
-                  });
-              }
-              
-              // Call the function to fetch WordPress posts when the page loads
-              //document.addEventListener('DOMContentLoaded', fetchWordPressPosts);
-              
-            }
-            
-            setTimeout(onDeviceReady,0)
+                } else {
+                    console.error('Invalid data structure:', JSON.stringify(data, null, 2));
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching posts:', error);
+            });
+        }
 
+        function displayPost(post) {
+            const postElement = document.createElement('div');
+            postElement.classList.add('post');
+            postElement.innerHTML = `
+              <div class="post-h">
+                <h2>${post.title}</h2>
+              </div>
+              <div class="post-bottom">
+                <p>${post.content}</p>
+                <button>CALL</button>
+              </div>
+            `;
+            postsContainer.appendChild(postElement);
+        }
+
+        // Fetch and display posts on page load
+        fetchAndDisplayPosts();
+
+        document.getElementById('post-form').addEventListener('submit', function(event) {
+          event.preventDefault();
+          const formData = new FormData(this);
+          const title = formData.get('title');
+          const content = formData.get('content');
+
+          // Send GET request to get existing posts
+          fetch(`${apiUrl}/latest`, {
+              headers: {
+                  'X-Master-Key': apiKey
+              }
+          })
+          .then(response => response.json())
+          .then(data => {
+              // Append the new post to the existing posts
+              const newPost = {
+                  id: (data.record.record.posts.length + 1).toString(), // Generate ID based on current length
+                  title: title,
+                  content: content
+              };
+              data.record.record.posts.push(newPost);
+
+              // Send PUT request to update the posts data
+              return fetch(apiUrl, {
+                  method: 'PUT',
+                  headers: {
+                      'Content-Type': 'application/json',
+                      'X-Master-Key': apiKey
+                  },
+                  body: JSON.stringify({ record: data.record.record }) // Wrap posts in record
+              });
+          })
+          .then(response => {
+              if (!response.ok) {
+                  throw new Error('Failed to add post');
+              }
+              return response.json();
+          })
+          .then(() => {
+              // Fetch and display updated list of posts
+              fetchAndDisplayPosts();
+              // Clear form fields
+              document.getElementById('title').value = '';
+              document.getElementById('content').value = '';
+          })
+          .catch(error => {
+              console.error('Error adding post:', error);
+          });
+      });
+                
     </script>
-  </body>
+</body>
 </html>
